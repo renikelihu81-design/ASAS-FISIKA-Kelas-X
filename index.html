@@ -1,0 +1,1304 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ASAS FISIKA - SMAN 46 MALUKU TENGAH</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                    },
+                    colors: {
+                        navy: {
+                            800: '#0A2540',
+                            900: '#061727',
+                        },
+                        gold: {
+                            400: '#F59E0B',
+                            500: '#D97706',
+                            600: '#B45309',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .physics-bg {
+            background-color: #061727;
+            background-image: 
+                radial-gradient(at 0% 0%, rgba(37, 99, 235, 0.15) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(217, 119, 6, 0.1) 0px, transparent 50%);
+        }
+        .atom-spinner {
+            border: 2px dashed rgba(245, 158, 11, 0.4);
+            border-radius: 50%;
+            animation: spin 12s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0f172a;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #334155;
+            border-radius: 3px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #475569;
+        }
+    </style>
+</head>
+<body class="bg-slate-900 text-slate-100 font-sans min-h-screen flex flex-col justify-between selection:bg-gold-500 selection:text-white">
+
+    <!-- NAVIGATION HEADER -->
+    <header class="bg-navy-900/90 backdrop-blur border-b border-slate-800 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-blue-600 to-amber-500 flex items-center justify-center text-white shadow-lg shadow-blue-500/20">
+                    <i class="fa-solid fa-atom text-xl animate-spin" style="animation-duration: 8s;"></i>
+                </div>
+                <div>
+                    <h1 class="text-xs sm:text-sm font-bold text-slate-100 tracking-wide uppercase leading-tight">ASAS FISIKA SMA</h1>
+                    <p class="text-[10px] sm:text-xs text-amber-400 font-medium">SMAN 46 Maluku Tengah</p>
+                </div>
+            </div>
+
+            <!-- Header Info / Action -->
+            <div class="flex items-center gap-3">
+                <div id="userBadge" class="hidden md:flex items-center gap-2 bg-slate-800/80 px-3 py-1.5 rounded-lg border border-slate-700 text-xs">
+                    <i class="fa-solid fa-user-graduate text-amber-400"></i>
+                    <span id="badgeStudentName" class="font-semibold text-slate-200">Siswa</span>
+                    <span class="text-slate-500">|</span>
+                    <span id="badgeStudentClass" class="text-slate-400">Kelas</span>
+                </div>
+                
+                <button onclick="toggleAdminModal()" class="px-3 py-1.5 text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 rounded-lg transition-all flex items-center gap-2">
+                    <i class="fa-solid fa-user-shield text-amber-400"></i>
+                    <span class="hidden sm:inline">Portal Guru</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- MAIN CONTAINER -->
+    <main class="flex-grow physics-bg relative overflow-hidden flex items-center justify-center p-3 sm:p-6">
+        
+        <!-- DECORATIVE ELEMENTS -->
+        <div class="absolute -top-24 -left-24 w-96 h-96 atom-spinner pointer-events-none"></div>
+        <div class="absolute -bottom-24 -right-24 w-96 h-96 atom-spinner pointer-events-none" style="animation-direction: reverse;"></div>
+
+        <div class="w-full max-w-5xl mx-auto relative z-10">
+
+            <!-- 1. LANDING & LOGIN PAGE -->
+            <div id="viewLanding" class="bg-slate-900/90 border border-slate-800 rounded-2xl p-5 sm:p-8 shadow-2xl backdrop-blur-xl">
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+                    
+                    <!-- Left Column: Info & Banner -->
+                    <div class="lg:col-span-7 space-y-6">
+                        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 text-xs font-semibold">
+                            <i class="fa-solid fa-square-poll-vertical"></i> Asesmen Sumatif Akhir Semester (ASAS)
+                        </div>
+
+                        <div class="space-y-2">
+                            <h2 class="text-2xl sm:text-4xl font-extrabold text-white tracking-tight">
+                                Ujian Interaktif <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-amber-400">Fisika SMA</span>
+                            </h2>
+                            <p class="text-slate-400 text-sm leading-relaxed">
+                                Portal asesmen resmi SMA Negeri 46 Maluku Tengah. Diampu oleh <span class="text-amber-400 font-semibold">Reni Kelihu, S.Pd.</span> Soal berbentuk pilihan ganda kompleks untuk menguji pemahaman konsep secara komprehensif.
+                            </p>
+                        </div>
+
+                        <!-- Info Cards -->
+                        <div class="grid grid-cols-3 gap-3">
+                            <div class="bg-slate-800/50 p-3 rounded-xl border border-slate-700/50 text-center">
+                                <i class="fa-solid fa-list-check text-blue-400 text-lg mb-1"></i>
+                                <div class="text-xs text-slate-400">Jumlah Soal</div>
+                                <div class="text-base font-bold text-slate-100" id="infoTotalQuestions">25 Soal</div>
+                            </div>
+                            <div class="bg-slate-800/50 p-3 rounded-xl border border-slate-700/50 text-center">
+                                <i class="fa-solid fa-clock text-amber-400 text-lg mb-1"></i>
+                                <div class="text-xs text-slate-400">Waktu</div>
+                                <div class="text-base font-bold text-slate-100" id="infoExamDuration">90 Menit</div>
+                            </div>
+                            <div class="bg-slate-800/50 p-3 rounded-xl border border-slate-700/50 text-center">
+                                <i class="fa-solid fa-layer-group text-emerald-400 text-lg mb-1"></i>
+                                <div class="text-xs text-slate-400">Tipe Soal</div>
+                                <div class="text-base font-bold text-slate-100">PG Kompleks</div>
+                            </div>
+                        </div>
+
+                        <!-- Instructions -->
+                        <div class="bg-slate-800/30 border border-slate-700/40 rounded-xl p-4 text-xs space-y-2 text-slate-300">
+                            <div class="font-semibold text-amber-400 flex items-center gap-2">
+                                <i class="fa-solid fa-circle-info"></i> Petunjuk Singkat Ujian:
+                            </div>
+                            <ul class="list-disc list-inside space-y-1 text-slate-400">
+                                <li>Setiap nomor soal memiliki <strong>lebih dari satu jawaban benar</strong>.</li>
+                                <li>Gunakan tanda centang (checkbox) untuk memilih jawaban yang Anda yakini benar.</li>
+                                <li>Koreksi nilai dilakukan secara otomatis oleh sistem setelah ujian diselesaikan.</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Right Column: Registration Form -->
+                    <div class="lg:col-span-5 bg-slate-800/60 p-6 rounded-xl border border-slate-700 shadow-lg">
+                        <h3 class="text-lg font-bold text-white mb-4 flex items-center gap-2">
+                            <i class="fa-solid fa-id-card text-blue-400"></i> Identitas Peserta Ujian
+                        </h3>
+
+                        <form id="formStartExam" onsubmit="handleStartExam(event)" class="space-y-4">
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-300 mb-1.5">Nama Lengkap Siswa</label>
+                                <div class="relative">
+                                    <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-slate-400"><i class="fa-solid fa-user"></i></span>
+                                    <input type="text" id="inputStudentName" required placeholder="Contoh: Rendi Rahayaan" class="w-full bg-slate-900 border border-slate-700 rounded-lg pl-9 pr-3 py-2 text-sm text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none">
+                                </div>
+                            </div>
+
+                            <div class="grid grid-cols-2 gap-3">
+                                <div>
+                                    <label class="block text-xs font-semibold text-slate-300 mb-1.5">Kelas</label>
+                                    <select id="inputStudentClass" required class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white focus:ring-2 focus:ring-blue-500 outline-none">
+                                        <option value="">Pilih Kelas</option>
+                                        <option value="X-1">X - 1</option>
+                                        <option value="X-2">X - 2</option>
+                                        <option value="XI-Fisika 1">XI - Fisika 1</option>
+                                        <option value="XI-Fisika 2">XI - Fisika 2</option>
+                                        <option value="XII-MIPA 1">XII - MIPA 1</option>
+                                        <option value="XII-MIPA 2">XII - MIPA 2</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-semibold text-slate-300 mb-1.5">No. Peserta</label>
+                                    <input type="text" id="inputStudentId" required placeholder="Contoh: 046-012" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white focus:ring-2 focus:ring-blue-500 outline-none">
+                                </div>
+                            </div>
+
+                            <div class="pt-2">
+                                <button type="submit" class="w-full bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-500 hover:to-blue-600 text-white font-bold py-3 px-4 rounded-xl shadow-lg shadow-blue-600/30 transition-all flex items-center justify-center gap-2 group">
+                                    <span>MULAI UJIAN SEKARANG</span>
+                                    <i class="fa-solid fa-arrow-right group-hover:translate-x-1 transition-transform"></i>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- 2. EXAM INTERFACE PAGE -->
+            <div id="viewExam" class="hidden space-y-4">
+                
+                <!-- Exam Bar (Timer & Progress) -->
+                <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-4 flex flex-col md:flex-row justify-between items-center gap-4 shadow-xl backdrop-blur">
+                    <!-- Left: Progress -->
+                    <div class="w-full md:w-1/3">
+                        <div class="flex justify-between text-xs text-slate-400 mb-1 font-semibold">
+                            <span>Progres Pengerjaan</span>
+                            <span id="progressText">0 / 25 Soal Dijawab</span>
+                        </div>
+                        <div class="w-full bg-slate-800 h-2.5 rounded-full overflow-hidden border border-slate-700">
+                            <div id="progressBar" class="bg-gradient-to-r from-blue-500 to-emerald-400 h-full w-0 transition-all duration-300"></div>
+                        </div>
+                    </div>
+
+                    <!-- Center: Timer -->
+                    <div class="flex items-center gap-3 bg-slate-800/90 px-4 py-2 rounded-xl border border-slate-700">
+                        <i class="fa-solid fa-hourglass-half text-amber-400 text-lg animate-pulse"></i>
+                        <div>
+                            <div class="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Sisa Waktu</div>
+                            <div id="examTimer" class="text-xl font-mono font-bold text-amber-400">00:00:00</div>
+                        </div>
+                    </div>
+
+                    <!-- Right: Quick Finish -->
+                    <button onclick="confirmFinishExam()" class="w-full md:w-auto px-4 py-2 bg-emerald-600/20 hover:bg-emerald-600/30 text-emerald-400 border border-emerald-500/30 rounded-xl font-semibold text-xs transition-all flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-check-double"></i>
+                        <span>Selesai & Kirim Jawaban</span>
+                    </button>
+                </div>
+
+                <!-- Main Exam Grid -->
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+                    
+                    <!-- Question Box (8 cols) -->
+                    <div class="lg:col-span-8 bg-slate-900/90 border border-slate-800 rounded-2xl p-5 sm:p-7 shadow-xl backdrop-blur flex flex-col justify-between min-h-[460px]">
+                        <div>
+                            <!-- Header Question -->
+                            <div class="flex items-center justify-between pb-4 border-b border-slate-800 mb-5">
+                                <span class="px-3 py-1 bg-blue-500/10 border border-blue-500/30 text-blue-400 font-bold text-xs rounded-lg">
+                                    Soal Nomor <span id="currentQuestionNum">1</span> dari <span id="totalQuestionNum">25</span>
+                                </span>
+                                <span class="text-xs text-amber-400 bg-amber-400/10 px-2.5 py-1 rounded border border-amber-400/20">
+                                    <i class="fa-solid fa-square-check mr-1"></i> Pilihan Ganda Kompleks
+                                </span>
+                            </div>
+
+                            <!-- Question Text -->
+                            <div id="questionText" class="text-slate-100 text-sm sm:text-base leading-relaxed mb-6 font-medium">
+                                Loading soal...
+                            </div>
+
+                            <!-- Options List (Checkboxes) -->
+                            <div id="optionsContainer" class="space-y-3">
+                                <!-- Dynamic Options -->
+                            </div>
+                        </div>
+
+                        <!-- Navigation Control -->
+                        <div class="flex items-center justify-between pt-6 border-t border-slate-800 mt-6">
+                            <button id="btnPrev" onclick="navigateQuestion(-1)" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold rounded-xl border border-slate-700 flex items-center gap-2 transition-all">
+                                <i class="fa-solid fa-chevron-left"></i>
+                                <span>Sebelumnya</span>
+                            </button>
+                            
+                            <div class="text-xs text-slate-400">
+                                Centang <span class="text-amber-400 font-bold">semua jawaban</span> yang tepat
+                            </div>
+
+                            <button id="btnNext" onclick="navigateQuestion(1)" class="px-5 py-2 bg-blue-600 hover:bg-blue-500 text-white text-xs font-semibold rounded-xl shadow-lg shadow-blue-600/20 flex items-center gap-2 transition-all">
+                                <span>Selanjutnya</span>
+                                <i class="fa-solid fa-chevron-right"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Question Palette Box (4 cols) -->
+                    <div class="lg:col-span-4 bg-slate-900/90 border border-slate-800 rounded-2xl p-5 shadow-xl backdrop-blur">
+                        <h4 class="text-xs font-bold text-slate-300 uppercase tracking-wider mb-4 flex items-center justify-between">
+                            <span>Navigasi Nomor Soal</span>
+                            <span class="text-[10px] text-slate-500 font-normal">Klik untuk lompat</span>
+                        </h4>
+
+                        <!-- Legend -->
+                        <div class="grid grid-cols-2 gap-2 text-[10px] text-slate-400 mb-4 pb-3 border-b border-slate-800">
+                            <div class="flex items-center gap-1.5">
+                                <div class="w-3 h-3 bg-blue-600 rounded"></div>
+                                <span>Sudah Dijawab</span>
+                            </div>
+                            <div class="flex items-center gap-1.5">
+                                <div class="w-3 h-3 bg-slate-800 border border-slate-700 rounded"></div>
+                                <span>Belum Dijawab</span>
+                            </div>
+                        </div>
+
+                        <!-- Palette Buttons Grid -->
+                        <div id="questionPalette" class="grid grid-cols-5 gap-2 max-h-[300px] overflow-y-auto pr-1">
+                            <!-- Dynamic Palette -->
+                        </div>
+
+                        <div class="mt-6 pt-4 border-t border-slate-800">
+                            <button onclick="confirmFinishExam()" class="w-full py-3 bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs rounded-xl shadow-lg shadow-emerald-600/20 transition-all flex items-center justify-center gap-2">
+                                <i class="fa-solid fa-paper-plane"></i>
+                                <span>Selesaikan & Kirim Ujian</span>
+                            </button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- 3. RESULT PAGE -->
+            <div id="viewResult" class="hidden space-y-6">
+                <!-- Result Card Header -->
+                <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-6 sm:p-8 shadow-2xl backdrop-blur relative overflow-hidden">
+                    <div class="absolute -right-10 -bottom-10 w-48 h-48 bg-amber-500/10 rounded-full blur-3xl"></div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-12 gap-6 items-center">
+                        <div class="md:col-span-8 space-y-4">
+                            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-semibold">
+                                <i class="fa-solid fa-circle-check"></i> Ujian Telah Diselesaikan
+                            </div>
+
+                            <div>
+                                <h2 class="text-2xl sm:text-3xl font-extrabold text-white">Hasil Asesmen Fisika</h2>
+                                <p class="text-slate-400 text-sm mt-1">
+                                    Peserta: <strong id="resStudentName" class="text-white"></strong> (<span id="resStudentClass" class="text-amber-400"></span>) - No: <span id="resStudentId"></span>
+                                </p>
+                            </div>
+
+                            <!-- Metrics Grid -->
+                            <div class="grid grid-cols-3 gap-3 pt-2">
+                                <div class="bg-slate-800/60 p-3 rounded-xl border border-slate-700/60">
+                                    <span class="text-[10px] text-slate-400 uppercase font-semibold">Benar Sepenuhnya</span>
+                                    <div id="resCorrectCount" class="text-xl font-bold text-emerald-400">0 Soal</div>
+                                </div>
+                                <div class="bg-slate-800/60 p-3 rounded-xl border border-slate-700/60">
+                                    <span class="text-[10px] text-slate-400 uppercase font-semibold">Salah / Kurang Tepat</span>
+                                    <div id="resWrongCount" class="text-xl font-bold text-rose-400">0 Soal</div>
+                                </div>
+                                <div class="bg-slate-800/60 p-3 rounded-xl border border-slate-700/60">
+                                    <span class="text-[10px] text-slate-400 uppercase font-semibold">Pencapaian</span>
+                                    <div id="resPercentage" class="text-xl font-bold text-blue-400">0%</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Score Badge -->
+                        <div class="md:col-span-4 flex flex-col items-center justify-center p-6 bg-slate-800/80 rounded-2xl border border-slate-700 text-center shadow-inner">
+                            <span class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-1">NILAI AKHIR</span>
+                            <div id="resFinalScore" class="text-5xl sm:text-6xl font-black text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-amber-200">
+                                0
+                            </div>
+                            <div id="resGradeStatus" class="mt-3 px-3 py-1 rounded-full text-xs font-bold bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">
+                                TUNTAS / MEMENUHI KKTP
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Discussion & Answer Key Section -->
+                <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-6 shadow-xl backdrop-blur">
+                    <h3 class="text-lg font-bold text-white mb-4 flex items-center justify-between">
+                        <span class="flex items-center gap-2"><i class="fa-solid fa-book-open text-blue-400"></i> Pembahasan & Evaluasi Jawaban</span>
+                        <span class="text-xs font-normal text-slate-400">Ulasan Jawaban Anda</span>
+                    </h3>
+
+                    <div id="reviewContainer" class="space-y-4 max-h-[500px] overflow-y-auto pr-2">
+                        <!-- Dynamic Review Items -->
+                    </div>
+
+                    <div class="mt-6 pt-4 border-t border-slate-800 flex justify-end">
+                        <button onclick="resetToLanding()" class="px-6 py-2.5 bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs rounded-xl shadow-lg transition-all flex items-center gap-2">
+                            <i class="fa-solid fa-house"></i>
+                            <span>Kembali ke Halaman Utama</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="bg-navy-900 border-t border-slate-800 py-3 text-center text-xs text-slate-500">
+        <p>&copy; 2026 SMAN 46 Maluku Tengah. Pengampu Fisika: <strong>Reni Kelihu, S.Pd.</strong> | Sistem ASAS Interaktif</p>
+    </footer>
+
+    <!-- MODAL PORTAL GURU / ADMIN -->
+    <div id="modalAdmin" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl w-full max-w-4xl max-h-[90vh] overflow-hidden flex flex-col shadow-2xl">
+            
+            <!-- Modal Header -->
+            <div class="px-6 py-4 border-b border-slate-800 flex items-center justify-between bg-slate-800/50">
+                <div class="flex items-center gap-2">
+                    <i class="fa-solid fa-user-shield text-amber-400 text-lg"></i>
+                    <h3 class="font-bold text-white text-base">Dashboard Guru / Admin ASAS</h3>
+                </div>
+                <button onclick="toggleAdminModal()" class="text-slate-400 hover:text-white"><i class="fa-solid fa-xmark text-lg"></i></button>
+            </div>
+
+            <!-- Modal Content -->
+            <div class="p-6 overflow-y-auto flex-grow space-y-6">
+                
+                <!-- Auth Guard Login Form -->
+                <div id="adminLoginForm" class="max-w-md mx-auto py-8 space-y-4">
+                    <div class="text-center space-y-1">
+                        <h4 class="text-lg font-bold text-white">Login Guru</h4>
+                        <p class="text-xs text-slate-400">Masukkan kata sandi admin untuk mengelola soal & data hasil ujian.</p>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-300 mb-1">Username</label>
+                        <input type="text" id="adminUsername" value="admin" class="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-300 mb-1">Password</label>
+                        <input type="password" id="adminPassword" value="fisika46" class="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white outline-none">
+                    </div>
+                    <button onclick="handleAdminLogin()" class="w-full py-2.5 bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold rounded-lg text-sm transition-all">
+                        Masuk Dashboard
+                    </button>
+                    <p class="text-[10px] text-center text-slate-500">Default Auth: Username: <code>admin</code> | Password: <code>fisika46</code></p>
+                </div>
+
+                <!-- Admin Dashboard View (Shown after auth) -->
+                <div id="adminDashboardContent" class="hidden space-y-6">
+                    
+                    <!-- Admin Action Bar -->
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div class="bg-slate-800/80 p-4 rounded-xl border border-slate-700">
+                            <label class="block text-xs font-semibold text-slate-400 mb-1">Durasi Ujian (Menit)</label>
+                            <input type="number" id="settingDuration" value="90" min="10" max="180" class="w-full bg-slate-900 border border-slate-700 rounded px-2.5 py-1.5 text-sm text-white">
+                        </div>
+                        <div class="bg-slate-800/80 p-4 rounded-xl border border-slate-700">
+                            <label class="block text-xs font-semibold text-slate-400 mb-1">Batas Kelulusan (KKTP)</label>
+                            <input type="number" id="settingPassingScore" value="75" min="0" max="100" class="w-full bg-slate-900 border border-slate-700 rounded px-2.5 py-1.5 text-sm text-white">
+                        </div>
+                        <div class="bg-slate-800/80 p-4 rounded-xl border border-slate-700 flex items-center justify-between">
+                            <span class="text-xs font-semibold text-slate-300">Simpan Pengaturan</span>
+                            <button onclick="saveAdminSettings()" class="px-3 py-1.5 bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold rounded-lg">
+                                Simpan
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Tabs & Data Table -->
+                    <div class="space-y-4">
+                        <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+                            <h4 class="text-sm font-bold text-white flex items-center gap-2">
+                                <i class="fa-solid fa-users text-amber-400"></i> Rekap Nilai Peserta Ujian
+                            </h4>
+                            <div class="flex gap-2">
+                                <button onclick="exportToExcel()" class="px-3 py-1.5 bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold rounded-lg flex items-center gap-1.5">
+                                    <i class="fa-solid fa-file-excel"></i> Export Excel (CSV)
+                                </button>
+                                <button onclick="clearAllData()" class="px-3 py-1.5 bg-rose-600/20 text-rose-400 border border-rose-500/30 hover:bg-rose-600/30 text-xs font-bold rounded-lg">
+                                    Hapus Semua Data
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Table -->
+                        <div class="overflow-x-auto bg-slate-950 border border-slate-800 rounded-xl">
+                            <table class="w-full text-left text-xs text-slate-300">
+                                <thead class="bg-slate-800 text-slate-200 font-bold uppercase text-[10px]">
+                                    <tr>
+                                        <th class="px-4 py-3">No</th>
+                                        <th class="px-4 py-3">Waktu Selesai</th>
+                                        <th class="px-4 py-3">No Peserta</th>
+                                        <th class="px-4 py-3">Nama Siswa</th>
+                                        <th class="px-4 py-3">Kelas</th>
+                                        <th class="px-4 py-3">Benar / Salah</th>
+                                        <th class="px-4 py-3 text-right">Nilai Akhir</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tableStudentResults" class="divide-y divide-slate-800">
+                                    <!-- Dynamic Table Rows -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- JAVASCRIPT LOGIC -->
+    <script>
+        // -------------------------------------------------------------
+        // DEFAULT BANK SOAL FISIKA (25 SOAL PILIHAN GANDA KOMPLEKS)
+        // -------------------------------------------------------------
+        const defaultQuestions = [
+            {
+                id: 1,
+                question: "Sebuah mobil balap bergerak lurus beraturan di jalan tol yang lurus. Pernyataan berikut yang BENAR mengenai besaran-besaran fisikanya adalah:",
+                options: [
+                    "A. Kecepatan mobil konstan setiap saat.",
+                    "B. Percepatan mobil bernilai nol (a = 0).",
+                    "C. Mobil menempuh jarak yang sama dalam selang waktu yang sama.",
+                    "D. Kecepatan mobil berubah secara beraturan.",
+                    "E. Resultan gaya yang bekerja pada mobil sama dengan nol (ΣF = 0)."
+                ],
+                correctAnswers: [0, 1, 2, 4], // A, B, C, E
+                discussion: "Pada Gerak Lurus Beraturan (GLB), kecepatan tetap, percepatan nol, menempuh jarak sama pada selang waktu konstan, dan sesuai Hukum I Newton (ΣF = 0)."
+            },
+            {
+                id: 2,
+                question: "Dua buah benda bermassa m1 dan m2 terpisah pada jarak r. Berdasarkan Hukum Gravitasi Universal Newton, gaya tarik gravitasi antara kedua benda akan MENINGKAT apabila:",
+                options: [
+                    "A. Massa m1 diperbesar.",
+                    "B. Massa m2 diperbesar.",
+                    "C. Jarak r antar benda diperkecil.",
+                    "D. Jarak r antar benda diperbesar.",
+                    "E. Kedua massa benda diperkecil."
+                ],
+                correctAnswers: [0, 1, 2], // A, B, C
+                discussion: "Gaya gravitasi F = G·(m1·m2)/r^2. F berbanding lurus dengan massa dan berbanding terbalik dengan kuadrat jarak."
+            },
+            {
+                id: 3,
+                question: "Pernyataan yang tepat mengenai konsep Energi Potensial Gravitasi dan Energi Kinetik pada gerak jatuh bebas (tanpa gesekan udara) adalah:",
+                options: [
+                    "A. Saat benda berada di titik tertinggi, energi potensial bernilai maksimum.",
+                    "B. Selama benda jatuh, energi kinetik berkurang secara konstan.",
+                    "C. Energi mekanik total benda konstan di setiap titik lintasan.",
+                    "D. Saat menyentuh tanah, energi kinetik benda bernilai maksimum.",
+                    "E. Energi potensial diubah menjadi energi kinetik selama benda jatuh."
+                ],
+                correctAnswers: [0, 2, 3, 4], // A, C, D, E
+                discussion: "Sesuai hukum kekekalan energi mekanik: Em = Ep + Ek konstan. Saat jatuh, Ep berkurang dan diubah menjadi Ek."
+            },
+            {
+                id: 4,
+                question: "Perhatikan fenomena Termodinamika! Pernyataan berikut yang BENAR sesuai dengan Hukum I Termodinamika (Q = ΔU + W) adalah:",
+                options: [
+                    "A. Pada proses isokhorik (volume tetap), usaha luar (W) bernilai nol.",
+                    "B. Pada proses isotermal (suhu tetap), perubahan energi dalam (ΔU) bernilai nol.",
+                    "C. Pada proses adiabatik, tidak ada kalor yang masuk atau keluar sistem (Q = 0).",
+                    "D. Pada proses isobarik (tekanan tetap), tidak terjadi perubahan volume.",
+                    "E. Kalor yang diserap gas dapat digunakan untuk menambah energi dalam dan melakukan usaha."
+                ],
+                correctAnswers: [0, 1, 2, 4], // A, B, C, E
+                discussion: "Isokhorik (W=0), Isotermal (ΔU=0), Adiabatik (Q=0), dan Hukum I Termodinamika menjelaskan alokasi kalor untuk usaha dan energi dalam."
+            },
+            {
+                id: 5,
+                question: "Gelombang elektromagnetik memiliki berbagai spektrum. Manakah dari pernyataan berikut yang BENAR mengenai sifat spektrum gelombang elektromagnetik?",
+                options: [
+                    "A. Sinar Gamma memiliki frekuensi tertinggi dan energi foton terbesar.",
+                    "B. Gelombang radio memiliki panjang gelombang terpanjang.",
+                    "C. Cahaya tampak berada di antara spektrum inframerah dan ultraviolet.",
+                    "D. Sinar-X digunakan dalam citra medis karena daya tembusnya tinggi.",
+                    "E. Semua gelombang elektromagnetik memerlukan medium udara untuk merambat."
+                ],
+                correctAnswers: [0, 1, 2, 3], // A, B, C, D
+                discussion: "Gelombang elektromagnetik dapat merambat di ruang hampa (tanpa medium). Sinar gamma memiliki frekuensi tertinggi dan gelombang radio terpanjang."
+            },
+            {
+                id: 6,
+                question: "Sebuah kawat lurus dialiri arus listrik searah (DC). Manakah dari pernyataan berikut yang BENAR terkait medan magnet di sekitar kawat tersebut?",
+                options: [
+                    "A. Arah medan magnet dapat ditentukan menggunakan kaidah tangan kanan.",
+                    "B. Kuat medan magnet berbanding lurus dengan besar arus listrik.",
+                    "C. Kuat medan magnet berbanding terbalik dengan jarak dari kawat.",
+                    "D. Garis-garis medan magnet berbentuk lingkaran sepusat mengelilingi kawat.",
+                    "E. Medan magnet semakin kuat jika jarak titik ke kawat semakin jauh."
+                ],
+                correctAnswers: [0, 1, 2, 3], // A, B, C, D
+                discussion: "Medan magnet B = (μ0·I)/(2πr). Semakin besar arus I dan semakin dekat jarak r, medan magnet B akan semakin kuat."
+            },
+            {
+                id: 7,
+                question: "Pernyataan yang BENAR mengenai perbedaan antara rangkaian listrik seri dan paralel pada resistor adalah:",
+                options: [
+                    "A. Pada rangkaian seri, kuat arus listrik yang mengalir di setiap resistor adalah sama.",
+                    "B. Pada rangkaian paralel, beda potensial (tegangan) pada setiap komponen adalah sama.",
+                    "C. Hambatan total rangkaian seri lebih besar dari nilai masing-masing hambatan penyusunnya.",
+                    "D. Jika salah satu lampu pada rangkaian seri padam, lampu lain tetap menyala.",
+                    "E. Hambatan pengganti total pada rangkaian paralel lebih kecil dari hambatan terkecilnya."
+                ],
+                correctAnswers: [0, 1, 2, 4], // A, B, C, E
+                discussion: "Rangkaian seri membagi tegangan dan arus sama. Jika 1 komponen mati pada seri, sirkuit terputus (semua mati)."
+            },
+            {
+                id: 8,
+                question: "Manakah fenomena berikut yang menunjukkan penerapan prinsip Efek Fotolistrik dalam teknologi modern?",
+                options: [
+                    "A. Sel surya (Solar Cell) penghasil listrik dari cahaya matahari.",
+                    "B. Sensor lampu otomatis penerangan jalan raya.",
+                    "C. Tabung fotomultiplier pada pemindai gambar medis.",
+                    "D. Transformator penurun tegangan listrik AC.",
+                    "E. Kacamata penglihat malam (Night Vision)."
+                ],
+                correctAnswers: [0, 1, 2], // A, B, C
+                discussion: "Efek fotolistrik adalah pelepasan elektron dari permukaan logam akibat radiasi foton. Digunakan pada solar cell dan sensor cahaya."
+            },
+            {
+                id: 9,
+                question: "Manakah pernyataan berikut yang BENAR mengenai Hukum Pembiasan Cahaya (Hukum Snellius)?",
+                options: [
+                    "A. Sinar datang dari medium renggang ke rapat dibiaskan mendekati garis normal.",
+                    "B. Sinar datang dari medium rapat ke renggang dibiaskan menjauhi garis normal.",
+                    "C. Frekuensi cahaya berubah saat berpindah dari udara ke air.",
+                    "D. Cepat rambat cahaya mengecil saat masuk ke medium yang lebih rapat indeks biasnya.",
+                    "E. Sudut kritis terjadi saat sinar datang dari medium lebih rapat menuju medium kurang rapat."
+                ],
+                correctAnswers: [0, 1, 3, 4], // A, B, D, E
+                discussion: "Frekuensi gelombang tetap konstan saat mengalami pembiasan, yang berubah adalah panjang gelombang dan kecepatan rambat."
+            },
+            {
+                id: 10,
+                question: "Pada pegas yang mengalami Gerak Harmonis Sederhana (GHS), faktor apa saja yang mempengaruhi periode getaran pegas (T)?",
+                options: [
+                    "A. Massa beban yang digantungkan (m).",
+                    "B. Konstanta gaya pegas (k).",
+                    "C. Percepatan gravitasi tempat pengujian (g).",
+                    "D. Amplitudo awal tarikan pegas.",
+                    "E. Kekakuan pegas."
+                ],
+                correctAnswers: [0, 1, 4], // A, B, E
+                discussion: "Periode pegas T = 2π√(m/k). Dipengaruhi oleh massa (m) dan konstanta/kekakuan pegas (k), tidak dipengaruhi oleh amplitudo maupun gravitasi."
+            },
+            {
+                id: 11,
+                question: "Perhatikan fenomena Fluida Dinamis! Manakah pernyataan yang sesuai dengan Asas Bernoulli?",
+                options: [
+                    "A. Tekanan fluida paling kecil berada pada bagian pipa yang kelajuan alirnya paling besar.",
+                    "B. Gaya angkat pesawat terbang tercipta karena perbedaan kecepatan udara di atas dan bawah sayap.",
+                    "C. Karburator kendaraan bekerja berdasarkan efek Venturi.",
+                    "D. Fluida ideal dianggap bersifat viskos (memiliki gesekan kental).",
+                    "E. Semakin sempit penampang pipa, kelajuan fluida semakin tinggi."
+                ],
+                correctAnswers: [0, 1, 2, 4], // A, B, C, E
+                discussion: "Prinsip Bernoulli menyatakan P + 1/2 ρv^2 + ρgh = konstan. Fluida ideal diasumsikan non-viskos (tanpa gesekan)."
+            },
+            {
+                id: 12,
+                question: "Dua benda A dan B bertumbukan. Manakah kondisi yang BENAR pada tumbukan lenting sempurna?",
+                options: [
+                    "A. Berlaku Hukum Kekekalan Momentum.",
+                    "B. Berlaku Hukum Kekekalan Energi Kinetik.",
+                    "C. Koefisien restitusi (e) bernilai 1.",
+                    "D. Kedua benda menyatu setelah tumbukan.",
+                    "E. Tidak ada energi kinetik yang hilang menjadi kalor atau bunyi."
+                ],
+                correctAnswers: [0, 1, 2, 4], // A, B, C, E
+                discussion: "Pada tumbukan lenting sempurna, momentum dan energi kinetik kekal, nilai e = 1, dan kedua benda tidak menyatu."
+            },
+            {
+                id: 13,
+                question: "Pernyataan yang TEPAT mengenai Radiasi Benda Hitam adalah:",
+                options: [
+                    "A. Benda hitam sempurna menyerap semua radiasi elektromagnetik yang mengenainya.",
+                    "B. Menurut Hukum Wien, panjang gelombang intensitas maksimum berbanding terbalik dengan suhu mutlak.",
+                    "C. Menurut Hukum Stefan-Boltzmann, daya radiasi berbanding lurus dengan suhu pangkat empat (T^4).",
+                    "D. Benda berwarna putih mengkilap memiliki emisivitas e = 1.",
+                    "E. Energi radiasi emitted dipancarkan secara kontinu menurut teori klasik."
+                ],
+                correctAnswers: [0, 1, 2], // A, B, C
+                discussion: "Benda hitam ideal memiliki emisivitas e = 1. Panjang gelombang puncak berbanding terbalik dengan T (Hukum Wien) dan P berbanding lurus T^4."
+            },
+            {
+                id: 14,
+                question: "Manakah faktor-faktor yang mempengaruhi besarnya Induksi Elektromagnetik (GGL Induksi) pada kumparan menurut Hukum Faraday?",
+                options: [
+                    "A. Jumlah lilitan kumparan (N).",
+                    "B. Laju perubahan fluks magnetik (dΦ/dt).",
+                    "C. Kuat medan magnet yang digunakan.",
+                    "D. Luas penampang kumparan.",
+                    "E. Jenis bahan isolator pembungkus kawat."
+                ],
+                correctAnswers: [0, 1, 2, 3], // A, B, C, D
+                discussion: "GGL Induksi ε = -N (dΦ/dt) di mana fluks Φ = B·A·cos(θ). Dipengaruhi lilitan, perubahan fluks, kuat medan, dan luas penampang."
+            },
+            {
+                id: 15,
+                question: "Pernyataan yang BENAR terkait Teori Relativitas Khusus Einstein adalah:",
+                options: [
+                    "A. Kecepatan cahaya di ruang hampa adalah sama bagi semua pengamat.",
+                    "B. Waktu berlanjut lebih lambat bagi pengamat yang bergerak cepat (dilatasi waktu).",
+                    "C. Panjang benda terlihat memendek searah geraknya (kontraksi panjang).",
+                    "D. Massa benda bergerak selalu lebih kecil dibanding massa diamnya.",
+                    "E. Kesetaraan massa dan energi dirumuskan E = m·c^2."
+                ],
+                correctAnswers: [0, 1, 2, 4], // A, B, C, E
+                discussion: "Massa relativistik benda bergerak justru bertambah besar (m = γ·m0). Postulat Einstein menyatakan laju c konstan."
+            },
+            {
+                id: 16,
+                question: "Sifat-sifat bayangan yang dibentuk oleh cermin cembung pada kendaraan bermotor adalah:",
+                options: [
+                    "A. Maya (Semu).",
+                    "B. Tegak.",
+                    "C. Diperkecil.",
+                    "D. Nyata.",
+                    "E. Terbalik."
+                ],
+                correctAnswers: [0, 1, 2], // A, B, C
+                discussion: "Cermin cembung selalu menghasilkan bayangan yang bersifat maya, tegak, dan diperkecil untuk memperluas pandangan pengemudi."
+            },
+            {
+                id: 17,
+                question: "Pernyataan yang tepat mengenai konsep Momen Inersia pada benda tegar adalah:",
+                options: [
+                    "A. Momen inersia adalah kelembaman benda untuk berotasi.",
+                    "B. Semakin jauh massa terdistribusi dari poros putar, semakin besar momen inersianya.",
+                    "C. Momen inersia tidak dipengaruhi oleh bentuk benda.",
+                    "D. Satuan SI untuk momen inersia adalah kg·m².",
+                    "E. Momen inersia silinder pejal lebih kecil dibanding silinder berongga bermassa sama."
+                ],
+                correctAnswers: [0, 1, 3, 4], // A, B, D, E
+                discussion: "I = k·m·r^2. Dipengaruhi oleh distribusi massa, massa total, poros putar, dan geometri/bentuk benda."
+            },
+            {
+                id: 18,
+                question: "Manakah fenomena berikut yang dipengaruhi oleh Efek Doppler pada gelombang bunyi?",
+                options: [
+                    "A. Sirine mobil ambulans terdengar lebih tinggi frekuensinya saat mendekati pendengar.",
+                    "B. Sirine ambulans terdengar lebih rendah frekuensinya saat menjauhi pendengar.",
+                    "C. Nada bunyi menjadi lebih kuat jika amplitudo dinaikkan.",
+                    "D. Perubahan frekuensi yang terdengar akibat gerak relatif sumber bunyi dan pendengar.",
+                    "E. Bunyi pantul yang memperkuat bunyi asli."
+                ],
+                correctAnswers: [0, 1, 3], // A, B, D
+                discussion: "Efek Doppler menjelaskan perubahan frekuensi gelombang yang diterima pendengar akibat adanya gerak relatif antara sumber dan pendengar."
+            },
+            {
+                id: 19,
+                question: "Manakah pernyataan yang BENAR mengenai Kapasitor dalam sirkuit listrik?",
+                options: [
+                    "A. Berfungsi untuk menyimpan muatan dan energi listrik.",
+                    "B. Kapasitansi kapasitor keping sejajar sebanding dengan luas keping (A).",
+                    "C. Kapasitansi berbanding terbalik dengan jarak antar keping (d).",
+                    "D. Menyisipkan bahan dielektrik akan memperkecil kapasitansinya.",
+                    "E. Dapat dirangkai seri maupun paralel untuk mengubah nilai kapasitas total."
+                ],
+                correctAnswers: [0, 1, 2, 4], // A, B, C, E
+                discussion: "C = ε·(A/d). Menambah bahan dielektrik (ε > ε0) akan MEMBESARKAN nilai kapasitansi kapasitor."
+            },
+            {
+                id: 20,
+                question: "Pernyataan yang TEPAT mengenai Inti Atom dan Radioaktivitas adalah:",
+                options: [
+                    "A. Sinar alfa (α) merupakan inti atom Helium bermuatan positif.",
+                    "B. Sinar beta (β) terdiri dari pancaran elektron berkecepatan tinggi.",
+                    "C. Sinar gamma (γ) adalah gelombang elektromagnetik tanpa muatan.",
+                    "D. Daya tembus sinar gamma adalah yang paling lemah dibanding alfa dan beta.",
+                    "E. Waktu paruh adalah waktu yang dibutuhkan muatan radioaktif untuk meluruh setengahnya."
+                ],
+                correctAnswers: [0, 1, 2, 4], // A, B, C, E
+                discussion: "Sinar gamma tidak bermuatan dan memiliki daya tembus paling kuat, sedangkan sinar alfa memiliki daya tembus paling lemah."
+            },
+            {
+                id: 21,
+                question: "Manakah penerapan prinsip Hukum Pascal dalam kehidupan sehari-hari?",
+                options: [
+                    "A. Dongkrak hidrolik pemindah mobil.",
+                    "B. Rem hidrolik pada mobil dan sepeda motor.",
+                    "C. Mesin press hidrolik.",
+                    "D. Balon udara panas yang membumbung.",
+                    "E. Kapal selam yang menyelam di laut."
+                ],
+                correctAnswers: [0, 1, 2], // A, B, C
+                discussion: "Hukum Pascal (tekanan diteruskan sama besar ke segala arah) diterapkan pada alat-alat hidrolik. Balon udara & kapal selam menggunakan Hukum Archimedes."
+            },
+            {
+                id: 22,
+                question: "Sifat-sifat dari Gelombang Mekanik yang BENAR adalah:",
+                options: [
+                    "A. Mengalami pemantulan (refleksi).",
+                    "B. Mengalami pembiasan (refraksi).",
+                    "C. Mengalami pelenturan (difraksi).",
+                    "D. Mengalami perpaduan (interferensi).",
+                    "E. Dapat merambat di ruang hampa udara (vakum)."
+                ],
+                correctAnswers: [0, 1, 2, 3], // A, B, C, D
+                discussion: "Gelombang mekanik memerlukan medium material untuk merambat, sehingga TIDAK dapat merambat di ruang hampa."
+            },
+            {
+                id: 23,
+                question: "Perhatikan fenomena pemuaian zat! Manakah pernyataan yang BENAR mengenai Pemuaian Termal?",
+                options: [
+                    "A. Koefisien muai volume (γ) bernilai sekitar 3 kali koefisien muai panjang (α).",
+                    "B. Air mengalami anomali (menyusut saat dipanaskan dari 0°C sampai 4°C).",
+                    "C. Bimetal melengkung ke arah logam yang koefisien muainya lebih kecil jika dipanaskan.",
+                    "D. Sambungan rel kereta api diberi celah untuk memberi ruang saat pemuaian.",
+                    "E. Pemuaian hanya terjadi pada wujud padat saja."
+                ],
+                correctAnswers: [0, 1, 2, 3], // A, B, C, D
+                discussion: "Pemuaian terjadi pada zat padat, cair, maupun gas. γ ≈ 3α, bimetal melengkung ke logam bertipe α lebih kecil."
+            },
+            {
+                id: 24,
+                question: "Pernyataan yang tepat mengenai konsep Usaha dan Daya dalam Fisika adalah:",
+                options: [
+                    "A. Usaha bernilai nol jika gaya tegak lurus dengan arah perpindahan.",
+                    "B. Usaha adalah perkalian titik (dot product) antara gaya dan perpindahan.",
+                    "C. Daya merupakan laju perubahan usaha tiap satuan waktu (P = W/t).",
+                    "D. Satuan SI untuk Daya adalah Watt (Joule/detik).",
+                    "E. Jika benda tidak berpindah, usaha yang dilakukan tetap ada."
+                ],
+                correctAnswers: [0, 1, 2, 3], // A, B, C, D
+                discussion: "Usaha W = F·s·cos(θ). Jika s = 0 (benda tidak berpindah) atau θ = 90° (tegak lurus), maka usaha W = 0."
+            },
+            {
+                id: 25,
+                question: "Manakah pernyataan yang BENAR mengenai pembentukan bayangan pada Mikroskop?",
+                options: [
+                    "A. Terdiri dari dua lensa cembung: Lensa Obyektif dan Lensa Okuler.",
+                    "B. Lensa obyektif membentuk bayangan nyata, terbalik, dan diperbesar.",
+                    "C. Lensa okuler berfungsi sebagai kaca pembesar (lup).",
+                    "D. Bayangan akhir yang dilihat mata bersifat maya, terbalik, dan diperbesar.",
+                    "E. Fokus lensa okuler selalu lebih kecil dibanding fokus lensa obyektif."
+                ],
+                correctAnswers: [0, 1, 2, 3], // A, B, C, D
+                discussion: "Mikroskop menggunakan 2 lensa positif (cembung). Bayangan akhir mikroskop bersifat maya, terbalik terhadap benda asli, dan diperbesar."
+            }
+        ];
+
+        // -------------------------------------------------------------
+        // STATE MANAGEMENT
+        // -------------------------------------------------------------
+        let currentQuestions = [];
+        let studentAnswers = {}; // { questionId: [selectedIndices] }
+        let currentQuestionIdx = 0;
+        let examTimerInterval = null;
+        let totalSecondsRemaining = 0;
+        let currentStudentInfo = {};
+
+        // -------------------------------------------------------------
+        // INITIALIZATION
+        // -------------------------------------------------------------
+        window.onload = function() {
+            initDatabase();
+            loadSettings();
+        };
+
+        function initDatabase() {
+            if (!localStorage.getItem('asas_questions')) {
+                localStorage.setItem('asas_questions', JSON.stringify(defaultQuestions));
+            }
+            if (!localStorage.getItem('asas_results')) {
+                localStorage.setItem('asas_results', JSON.stringify([]));
+            }
+            currentQuestions = JSON.parse(localStorage.getItem('asas_questions'));
+        }
+
+        function loadSettings() {
+            const duration = localStorage.getItem('asas_duration') || 90;
+            const passing = localStorage.getItem('asas_passing') || 75;
+            
+            document.getElementById('infoExamDuration').innerText = duration + ' Menit';
+            document.getElementById('settingDuration').value = duration;
+            document.getElementById('settingPassingScore').value = passing;
+            document.getElementById('infoTotalQuestions').innerText = currentQuestions.length + ' Soal';
+        }
+
+        // -------------------------------------------------------------
+        // EXAM START LOGIC
+        // -------------------------------------------------------------
+        function handleStartExam(event) {
+            event.preventDefault();
+            
+            const name = document.getElementById('inputStudentName').value.trim();
+            const sClass = document.getElementById('inputStudentClass').value;
+            const sId = document.getElementById('inputStudentId').value.trim();
+
+            if (!name || !sClass || !sId) {
+                alert('Mohon lengkapi seluruh data identitas Anda!');
+                return;
+            }
+
+            currentStudentInfo = {
+                name: name,
+                class: sClass,
+                studentId: sId,
+                startTime: new Date().toLocaleTimeString()
+            };
+
+            // Update Badges
+            document.getElementById('badgeStudentName').innerText = name;
+            document.getElementById('badgeStudentClass').innerText = sClass;
+            document.getElementById('userBadge').classList.remove('hidden');
+
+            // Reset Answers
+            studentAnswers = {};
+            currentQuestions.forEach(q => {
+                studentAnswers[q.id] = [];
+            });
+
+            // Timer setup
+            const durationMinutes = parseInt(localStorage.getItem('asas_duration') || 90);
+            totalSecondsRemaining = durationMinutes * 60;
+            startTimer();
+
+            // Render Views
+            document.getElementById('viewLanding').classList.add('hidden');
+            document.getElementById('viewExam').classList.remove('hidden');
+            
+            currentQuestionIdx = 0;
+            renderQuestion(currentQuestionIdx);
+            renderPalette();
+            updateProgress();
+        }
+
+        // -------------------------------------------------------------
+        // TIMER LOGIC
+        // -------------------------------------------------------------
+        function startTimer() {
+            clearInterval(examTimerInterval);
+            updateTimerDisplay();
+
+            examTimerInterval = setInterval(() => {
+                totalSecondsRemaining--;
+                updateTimerDisplay();
+
+                if (totalSecondsRemaining === 300) { // 5 mins warning
+                    alert('Peringatan: Waktu pengerjaan tersisa 5 menit lagi!');
+                }
+
+                if (totalSecondsRemaining <= 0) {
+                    clearInterval(examTimerInterval);
+                    alert('Waktu habis! Jawaban Anda akan dikirimkan otomatis.');
+                    finishExam();
+                }
+            }, 1000);
+        }
+
+        function updateTimerDisplay() {
+            const hrs = Math.floor(totalSecondsRemaining / 3600);
+            const mins = Math.floor((totalSecondsRemaining % 3600) / 60);
+            const secs = totalSecondsRemaining % 60;
+
+            document.getElementById('examTimer').innerText = 
+                `${String(hrs).padStart(2, '0')}:${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+        }
+
+        // -------------------------------------------------------------
+        // QUESTION RENDERING & NAVIGATION
+        // -------------------------------------------------------------
+        function renderQuestion(idx) {
+            const q = currentQuestions[idx];
+            document.getElementById('currentQuestionNum').innerText = idx + 1;
+            document.getElementById('totalQuestionNum').innerText = currentQuestions.length;
+            document.getElementById('questionText').innerText = q.question;
+
+            const container = document.getElementById('optionsContainer');
+            container.innerHTML = '';
+
+            const currentSelected = studentAnswers[q.id] || [];
+
+            q.options.forEach((optText, optIdx) => {
+                const isChecked = currentSelected.includes(optIdx);
+                const optionEl = document.createElement('label');
+                optionEl.className = `flex items-start gap-3 p-3.5 rounded-xl border transition-all cursor-pointer ${
+                    isChecked 
+                    ? 'bg-blue-600/15 border-blue-500 text-white shadow-sm' 
+                    : 'bg-slate-800/40 border-slate-700/60 text-slate-300 hover:bg-slate-800'
+                }`;
+
+                optionEl.innerHTML = `
+                    <input type="checkbox" ${isChecked ? 'checked' : ''} onchange="toggleOption(${q.id}, ${optIdx})" class="mt-1 w-4 h-4 text-blue-600 rounded bg-slate-900 border-slate-700 focus:ring-blue-500">
+                    <span class="text-xs sm:text-sm leading-relaxed">${optText}</span>
+                `;
+                container.appendChild(optionEl);
+            });
+
+            // Prev/Next buttons
+            document.getElementById('btnPrev').disabled = (idx === 0);
+            document.getElementById('btnPrev').style.opacity = (idx === 0) ? '0.5' : '1';
+
+            if (idx === currentQuestions.length - 1) {
+                document.getElementById('btnNext').classList.add('hidden');
+            } else {
+                document.getElementById('btnNext').classList.remove('hidden');
+            }
+        }
+
+        function toggleOption(questionId, optionIdx) {
+            let list = studentAnswers[questionId] || [];
+            if (list.includes(optionIdx)) {
+                list = list.filter(i => i !== optionIdx);
+            } else {
+                list.push(optionIdx);
+            }
+            studentAnswers[questionId] = list;
+
+            renderQuestion(currentQuestionIdx);
+            renderPalette();
+            updateProgress();
+        }
+
+        function navigateQuestion(step) {
+            const newIdx = currentQuestionIdx + step;
+            if (newIdx >= 0 && newIdx < currentQuestions.length) {
+                currentQuestionIdx = newIdx;
+                renderQuestion(currentQuestionIdx);
+            }
+        }
+
+        function jumpToQuestion(idx) {
+            currentQuestionIdx = idx;
+            renderQuestion(currentQuestionIdx);
+        }
+
+        function renderPalette() {
+            const palette = document.getElementById('questionPalette');
+            palette.innerHTML = '';
+
+            currentQuestions.forEach((q, idx) => {
+                const answered = studentAnswers[q.id] && studentAnswers[q.id].length > 0;
+                const isCurrent = (idx === currentQuestionIdx);
+
+                const btn = document.createElement('button');
+                btn.onclick = () => jumpToQuestion(idx);
+                btn.className = `h-9 text-xs font-bold rounded-lg border transition-all flex items-center justify-center ${
+                    isCurrent ? 'ring-2 ring-amber-400 font-extrabold ' : ''
+                } ${
+                    answered 
+                    ? 'bg-blue-600 border-blue-500 text-white' 
+                    : 'bg-slate-800 border-slate-700 text-slate-400 hover:bg-slate-700'
+                }`;
+                btn.innerText = idx + 1;
+                palette.appendChild(btn);
+            });
+        }
+
+        function updateProgress() {
+            let answeredCount = 0;
+            Object.values(studentAnswers).forEach(ansList => {
+                if (ansList && ansList.length > 0) answeredCount++;
+            });
+
+            const total = currentQuestions.length;
+            const pct = Math.round((answeredCount / total) * 100);
+
+            document.getElementById('progressText').innerText = `${answeredCount} / ${total} Soal Dijawab`;
+            document.getElementById('progressBar').style.width = `${pct}%`;
+        }
+
+        // -------------------------------------------------------------
+        // EVALUATION & SCORING
+        // -------------------------------------------------------------
+        function confirmFinishExam() {
+            let answeredCount = 0;
+            Object.values(studentAnswers).forEach(ansList => {
+                if (ansList && ansList.length > 0) answeredCount++;
+            });
+
+            const total = currentQuestions.length;
+            const unAnswered = total - answeredCount;
+
+            let msg = 'Apakah Anda yakin ingin menyelesaikan ujian?';
+            if (unAnswered > 0) {
+                msg = `Masih ada ${unAnswered} soal yang belum dijawab. Yakin ingin mengumpulkan?`;
+            }
+
+            if (confirm(msg)) {
+                finishExam();
+            }
+        }
+
+        function finishExam() {
+            clearInterval(examTimerInterval);
+
+            // Compute Score
+            let totalEarnedScore = 0;
+            let maxScore = currentQuestions.length; // Each question is worth 1 point if fully correct
+            let fullyCorrectCount = 0;
+            let wrongCount = 0;
+
+            const reviewItems = [];
+
+            currentQuestions.forEach((q, idx) => {
+                const userChoice = studentAnswers[q.id] || [];
+                const keys = q.correctAnswers;
+
+                // Check exact match for multiple response
+                const isExact = (userChoice.length === keys.length) && 
+                                userChoice.every(val => keys.includes(val));
+
+                if (isExact) {
+                    totalEarnedScore += 1;
+                    fullyCorrectCount++;
+                } else {
+                    // Partial score system (Optional fair grading):
+                    // Match score = correct picks - wrong picks
+                    let match = 0;
+                    userChoice.forEach(c => {
+                        if (keys.includes(c)) match += (1 / keys.length);
+                        else match -= (0.5 / keys.length);
+                    });
+                    if (match > 0) totalEarnedScore += match;
+                    wrongCount++;
+                }
+
+                reviewItems.push({
+                    question: q,
+                    userChoice: userChoice,
+                    isExact: isExact
+                });
+            });
+
+            const finalScore = Math.round((totalEarnedScore / maxScore) * 100);
+            const passingScore = parseInt(localStorage.getItem('asas_passing') || 75);
+            const isPassed = finalScore >= passingScore;
+
+            // Save to Local DB
+            const record = {
+                id: Date.now(),
+                studentName: currentStudentInfo.name,
+                studentClass: currentStudentInfo.class,
+                studentId: currentStudentInfo.studentId,
+                completedTime: new Date().toLocaleString(),
+                score: finalScore,
+                correct: fullyCorrectCount,
+                wrong: wrongCount,
+                passed: isPassed
+            };
+
+            const existingResults = JSON.parse(localStorage.getItem('asas_results') || '[]');
+            existingResults.push(record);
+            localStorage.setItem('asas_results', JSON.stringify(existingResults));
+
+            // Display Results
+            document.getElementById('resStudentName').innerText = currentStudentInfo.name;
+            document.getElementById('resStudentClass').innerText = currentStudentInfo.class;
+            document.getElementById('resStudentId').innerText = currentStudentInfo.studentId;
+
+            document.getElementById('resCorrectCount').innerText = `${fullyCorrectCount} Soal`;
+            document.getElementById('resWrongCount').innerText = `${wrongCount} Soal`;
+            document.getElementById('resPercentage').innerText = `${finalScore}%`;
+            document.getElementById('resFinalScore').innerText = finalScore;
+
+            const statusEl = document.getElementById('resGradeStatus');
+            if (isPassed) {
+                statusEl.innerText = 'TUNTAS / MEMENUHI KKTP';
+                statusEl.className = 'mt-3 px-3 py-1 rounded-full text-xs font-bold bg-emerald-500/20 text-emerald-400 border border-emerald-500/30';
+            } else {
+                statusEl.innerText = 'BELUM TUNTAS / PERLU REMIDIAL';
+                statusEl.className = 'mt-3 px-3 py-1 rounded-full text-xs font-bold bg-rose-500/20 text-rose-400 border border-rose-500/30';
+            }
+
+            renderReview(reviewItems);
+
+            document.getElementById('viewExam').classList.add('hidden');
+            document.getElementById('viewResult').classList.remove('hidden');
+        }
+
+        function renderReview(items) {
+            const container = document.getElementById('reviewContainer');
+            container.innerHTML = '';
+
+            items.forEach((item, idx) => {
+                const q = item.question;
+                const card = document.createElement('div');
+                card.className = `p-4 rounded-xl border ${item.isExact ? 'bg-emerald-950/20 border-emerald-800/40' : 'bg-rose-950/20 border-rose-800/40'}`;
+
+                let optionsHtml = '';
+                q.options.forEach((opt, oIdx) => {
+                    const isKey = q.correctAnswers.includes(oIdx);
+                    const isUserPitched = item.userChoice.includes(oIdx);
+
+                    let badge = '';
+                    if (isKey && isUserPitched) {
+                        badge = '<span class="text-[10px] bg-emerald-500/20 text-emerald-400 px-2 py-0.5 rounded font-bold">Jawaban Anda (Benar)</span>';
+                    } else if (isKey && !isUserPitched) {
+                        badge = '<span class="text-[10px] bg-amber-500/20 text-amber-400 px-2 py-0.5 rounded font-bold">Kunci Jawaban</span>';
+                    } else if (!isKey && isUserPitched) {
+                        badge = '<span class="text-[10px] bg-rose-500/20 text-rose-400 px-2 py-0.5 rounded font-bold">Jawaban Anda (Salah)</span>';
+                    }
+
+                    optionsHtml += `
+                        <div class="text-xs py-1 flex items-center justify-between ${isKey ? 'text-emerald-300 font-semibold' : 'text-slate-400'}">
+                            <span>${opt}</span>
+                            ${badge}
+                        </div>
+                    `;
+                });
+
+                card.innerHTML = `
+                    <div class="flex items-center justify-between border-b border-slate-800/60 pb-2 mb-2">
+                        <span class="text-xs font-bold text-slate-300">Soal #${idx + 1}</span>
+                        <span class="text-xs font-bold ${item.isExact ? 'text-emerald-400' : 'text-rose-400'}">
+                            ${item.isExact ? '<i class="fa-solid fa-check mr-1"></i> Benar Sempurna' : '<i class="fa-solid fa-xmark mr-1"></i> Kurang Tepat'}
+                        </span>
+                    </div>
+                    <p class="text-xs sm:text-sm text-slate-200 mb-3">${q.question}</p>
+                    <div class="space-y-1 mb-3 bg-slate-900/60 p-3 rounded-lg">${optionsHtml}</div>
+                    <div class="text-xs bg-slate-800/60 p-2.5 rounded-lg border border-slate-700/50 text-slate-300">
+                        <strong class="text-amber-400"><i class="fa-solid fa-lightbulb"></i> Pembahasan:</strong> ${q.discussion}
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function resetToLanding() {
+            document.getElementById('viewResult').classList.add('hidden');
+            document.getElementById('viewLanding').classList.remove('hidden');
+            document.getElementById('userBadge').classList.add('hidden');
+        }
+
+        // -------------------------------------------------------------
+        // ADMIN PORTAL & DASHBOARD LOGIC
+        // -------------------------------------------------------------
+        function toggleAdminModal() {
+            const modal = document.getElementById('modalAdmin');
+            modal.classList.toggle('hidden');
+        }
+
+        function handleAdminLogin() {
+            const u = document.getElementById('adminUsername').value;
+            const p = document.getElementById('adminPassword').value;
+
+            if (u === 'admin' && p === 'fisika46') {
+                document.getElementById('adminLoginForm').classList.add('hidden');
+                document.getElementById('adminDashboardContent').classList.remove('hidden');
+                renderAdminStudentResults();
+            } else {
+                alert('Username atau Password Admin salah!');
+            }
+        }
+
+        function saveAdminSettings() {
+            const duration = document.getElementById('settingDuration').value;
+            const passing = document.getElementById('settingPassingScore').value;
+
+            localStorage.setItem('asas_duration', duration);
+            localStorage.setItem('asas_passing', passing);
+
+            loadSettings();
+            alert('Pengaturan ujian berhasil diperbarui!');
+        }
+
+        function renderAdminStudentResults() {
+            const tbody = document.getElementById('tableStudentResults');
+            tbody.innerHTML = '';
+
+            const results = JSON.parse(localStorage.getItem('asas_results') || '[]');
+
+            if (results.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="7" class="text-center py-4 text-slate-500">Belum ada peserta yang menyelesaikan ujian.</td></tr>`;
+                return;
+            }
+
+            results.forEach((r, idx) => {
+                const tr = document.createElement('tr');
+                tr.className = 'hover:bg-slate-900/50';
+                tr.innerHTML = `
+                    <td class="px-4 py-3">${idx + 1}</td>
+                    <td class="px-4 py-3 text-slate-400">${r.completedTime}</td>
+                    <td class="px-4 py-3 font-mono">${r.studentId}</td>
+                    <td class="px-4 py-3 font-semibold text-white">${r.studentName}</td>
+                    <td class="px-4 py-3 text-amber-400">${r.studentClass}</td>
+                    <td class="px-4 py-3"><span class="text-emerald-400">${r.correct}</span> / <span class="text-rose-400">${r.wrong}</span></td>
+                    <td class="px-4 py-3 text-right font-bold text-sm ${r.passed ? 'text-emerald-400' : 'text-rose-400'}">${r.score}</td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function exportToExcel() {
+            const results = JSON.parse(localStorage.getItem('asas_results') || '[]');
+            if (results.length === 0) {
+                alert('Tidak ada data untuk diekspor!');
+                return;
+            }
+
+            let csvContent = "data:text/csv;charset=utf-8,No,Waktu Selesai,No Peserta,Nama Siswa,Kelas,Benar,Salah,Nilai Akhir,Status\n";
+
+            results.forEach((r, idx) => {
+                const row = `${idx + 1},"${r.completedTime}","${r.studentId}","${r.studentName}","${r.studentClass}",${r.correct},${r.wrong},${r.score},"${r.passed ? 'TUNTAS' : 'REMIDIAL'}"`;
+                csvContent += row + "\n";
+            });
+
+            const encodedUri = encodeURI(csvContent);
+            const link = document.createElement("a");
+            link.setAttribute("href", encodedUri);
+            link.setAttribute("download", `REKAP_ASAS_FISIKA_SMAN46_${Date.now()}.csv`);
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
+        function clearAllData() {
+            if (confirm('Apakah Anda yakin ingin menghapus seluruh riwayat ujian peserta? Data tidak dapat dikembalikan.')) {
+                localStorage.setItem('asas_results', JSON.stringify([]));
+                renderAdminStudentResults();
+                alert('Seluruh data riwayat berhasil dibersihkan.');
+            }
+        }
+    </script>
+</body>
+</html>
